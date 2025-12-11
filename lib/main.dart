@@ -1,6 +1,6 @@
+
+import 'package:adsterra_demo/ui/reels/reel_screens.dart';
 import 'package:flutter/material.dart';
-import 'adsterra/adsterra_config.dart';
-import 'adsterra/adsterra_web_widget.dart';
 
 
 void main() {
@@ -20,11 +20,13 @@ class AdsterraDemoApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         scaffoldBackgroundColor: const Color(0xFFF8F9FA),
       ),
-      home: const HomePage(),
+      home: const ReelScreens(),
     );
   }
 }
 
+
+/*
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -107,3 +109,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+ */

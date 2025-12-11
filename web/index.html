@@ -1,38 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="adsterra_demo Flutter web app">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="adsterra_demo">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
+  <link rel="icon" type="image/png" href="favicon.png">
   <title>adsterra_demo</title>
   <link rel="manifest" href="manifest.json">
+  <!-- Optional: any other head scripts or styles -->
+  <style>
+    /* small safe defaults to avoid layout shift when ads inject */
+    .ad-placeholder { width:100%; height:90px; display:flex; align-items:center; justify-content:center; background:#f5f5f5; color:#888; }
+  </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+<!-- Flutter bootstrap -->
+<script src="flutter_bootstrap.js" async></script>
+
+<!-- Optional global ad provider loader (HTTPS) -->
+<!-- If you inject per-container scripts from Dart, this global loader is optional -->
+<script async data-cfasync="false" src="https://pl25493353.effectivegatecpm.com/8e8a276d393bb819af043954cc38995b/invoke.js"></script>
+
+<!-- Example global container (not required if you inject per-ad) -->
+<div id="container-8e8a276d393bb819af043954cc38995b" style="display:none;"></div>
+
+<!-- Lazy loader helper for ad containers -->
+<script>
+  (function () {
+    // Expose a helper to register an ad container for lazy injection
+    window._registerNativeAdLazyLoader = function(containerId, width, height) {
+      try {
+        var el = document.getElementById(containerId);
+        if (!el) return;
+        if (el.dataset.injected) return;
+
+        // If IntersectionObserver not supported, inject immediately
+        if (!('IntersectionObserver' in window)) {
+          injectIframe(el, width, height);
+          return;
+        }
+
+        var observer = new IntersectionObserver(function(entries, obs) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              injectIframe(el, width, height);
+              obs.unobserve(el);
+            }
+          });
+        }, { threshold: 0.25 });
+
+        observer.observe(el);
+      } catch (e) {
+        console.error('Ad lazy loader error', e);
+      }
+    };
+
+    function injectIframe(el, width, height) {
+      try {
+        if (el.dataset.injected) return;
+        // If ad network script will auto-inject, you may instead append options + loader script
+        // Here we append a placeholder iframe to ensure viewability and avoid layout shift
+        var iframe = document.createElement('iframe');
+        iframe.width = '100%';
+        iframe.height = height;
+        iframe.style.border = '0';
+        iframe.style.overflow = 'hidden';
+        iframe.setAttribute('loading', 'lazy');
+        el.appendChild(iframe);
+        el.dataset.injected = '1';
+      } catch (e) {
+        console.error('injectIframe error', e);
+      }
+    }
+
+    // Small utility to inject ad provider script and options into a specific container
+    window._injectAdScriptForContainer = function(containerId, key, height, width) {
+      try {
+        var container = document.getElementById(containerId);
+        if (!container) return;
+        if (container.dataset.injected) return;
+
+        // Create options script (scoped to this container)
+        var optionsScript = document.createElement('script');
+        optionsScript.type = 'text/javascript';
+        optionsScript.text = "var atOptions = { 'key' : '" + key + "', 'format' : 'iframe', 'height' : " + height + ", 'width' : '" + width + "', 'params' : {} };";
+        container.appendChild(optionsScript);
+
+        // Create loader script (use HTTPS)
+        var loader = document.createElement('script');
+        loader.async = true;
+        loader.setAttribute('data-cfasync', 'false');
+        loader.src = 'https://pl25493353.effectivegatecpm.com/8e8a276d393bb819af043954cc38995b/invoke.js';
+        container.appendChild(loader);
+
+        container.dataset.injected = '1';
+      } catch (e) {
+        console.error('injectAdScriptForContainer error', e);
+      }
+    };
+  })();
+</script>
+
+<!-- End body -->
 </body>
 </html>
