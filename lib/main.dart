@@ -1,5 +1,7 @@
 import 'package:adsterra_demo/ui/adsterra_config.dart';
 import 'package:adsterra_demo/ui/adsterra_web_widget.dart';
+import 'package:adsterra_demo/ui/banner_ad_widget.dart';
+import 'package:adsterra_demo/ui/native_ad_widget.dart';
 import 'package:flutter/material.dart';
 
 
@@ -46,61 +48,22 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Header Card
-            const Card(
-              color: Colors.white,
-              elevation: 2,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "Welcome to Adsterra Integration Demo",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
 
-            const SizedBox(height: 30),
 
-            // --- BANNER AD SECTION ---
+            /*
+// Banner section
             const Text("Banner Ad (300x250)", style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
-                color: Colors.white,
-              ),
-              child: AdsterraWebWidget(
-                viewID: 'banner-ad-view',
-                width: 300,
-                height: 250,
-                htmlContent: AdsterraConfig.getBannerHtml(width: 300, height: 250),
-              ),
-            ),
+            const BannerAdWidget(width: 300, height: 250),
 
             const SizedBox(height: 40),
 
-            // --- NATIVE AD SECTION ---
+             */
+
+// Native section
             const Text("Native Ad (Your Code)", style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.deepPurple.withOpacity(0.2)),
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: AdsterraWebWidget(
-                viewID: 'native-ad-view',
-                width: 350,
-                height: 300, // স্ক্রিপ্ট লোড হওয়ার জন্য জায়গা
-                htmlContent: AdsterraConfig.getNativeAdHtml(),
-              ),
-            ),
-
-            const SizedBox(height: 50),
-            const Text("Scroll down for more content..."),
-            const SizedBox(height: 50),
+            const NativeAdWidget(width: 350, height: 300),
           ],
         ),
       ),
