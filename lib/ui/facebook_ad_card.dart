@@ -13,14 +13,20 @@ class FacebookAdCard extends StatelessWidget {
     required this.directLink,
   });
 
-  // ডামি ডাটা
-  final List<String> _names = ["App Store", "Game Center", "Tech Daily", "Viral Zone"];
+  // রিয়েলিস্টিক ডাটা
+  final List<String> _names = ["App Center", "Game Zone", "Tech Deals", "Viral Videos"];
+  final List<String> _icons = [
+    "https://cdn-icons-png.flaticon.com/512/3063/3063822.png", // Game
+    "https://cdn-icons-png.flaticon.com/512/732/732221.png", // Microsoft/App
+    "https://cdn-icons-png.flaticon.com/512/2991/2991148.png", // Google
+  ];
   final List<String> _buttons = ["Install Now", "Play Game", "Watch Video", "Get Offer"];
 
   @override
   Widget build(BuildContext context) {
     final random = Random();
     final String name = _names[random.nextInt(_names.length)];
+    final String icon = _icons[random.nextInt(_icons.length)];
     final String btnText = _buttons[random.nextInt(_buttons.length)];
 
     return Container(
@@ -39,28 +45,22 @@ class FacebookAdCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 🔵 HEADER (Clickable)
+          // 🔵 HEADER (Clickable) - এক্সট্রা ইনকাম সোর্স
           InkWell(
             onTap: () => html.window.open(directLink, '_blank'),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
               child: Row(
                 children: [
-                  // Logo
                   Container(
-                    width: 42,
-                    height: 42,
+                    width: 40, height: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.grey.shade200),
-                      image: const DecorationImage(
-                        image: NetworkImage("https://cdn-icons-png.flaticon.com/512/732/732221.png"), // Microsoft/App icon style
-                        fit: BoxFit.cover,
-                      ),
+                      image: DecorationImage(image: NetworkImage(icon), fit: BoxFit.cover),
                     ),
                   ),
                   const SizedBox(width: 10),
-                  // Name & Badge
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -68,7 +68,7 @@ class FacebookAdCard extends StatelessWidget {
                         children: [
                           Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                           const SizedBox(width: 4),
-                          const Icon(Icons.verified, color: Colors.blue, size: 14), // Verified Badge
+                          const Icon(Icons.verified, color: Colors.blue, size: 14),
                         ],
                       ),
                       const Text("Sponsored • Suggested for you", style: TextStyle(fontSize: 11, color: Colors.grey)),
@@ -81,7 +81,7 @@ class FacebookAdCard extends StatelessWidget {
             ),
           ),
 
-          // 📺 AD BODY
+          // 📺 AD BODY (Native Ad)
           Container(
             width: double.infinity,
             color: const Color(0xFFFAFAFA),
@@ -89,21 +89,20 @@ class FacebookAdCard extends StatelessWidget {
             child: NativeAdWidget(viewId: viewId),
           ),
 
-          // 🔘 FOOTER ACTION
+          // 🔘 FOOTER ACTION (Direct Link) - আসল ইনকাম
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Recommended for you based on your activity. 4.8 ★★★★★ (2M+ Downloads)",
+                  "🔥 Recommended based on your activity. 4.8 ★★★★★ (1M+ Downloads)",
                   style: TextStyle(fontSize: 13, color: Colors.black87),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
 
-                // Big Action Button
                 InkWell(
                   onTap: () => html.window.open(directLink, '_blank'),
                   borderRadius: BorderRadius.circular(8),
